@@ -1,0 +1,9 @@
+{
+  "name": "Minha Rotina",
+  "short_name": "Rotina",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5"
+}
