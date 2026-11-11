@@ -1,9 +1,235 @@
+:root {
+  --cor-principal: #4f46e5;
+  --fundo: #f5f5f7;
+  --texto: #1d1d1f;
+  --cinza: #6e6e73;
+  --altura-abas: 56px;
+}
+
+* { box-sizing: border-box; }
+
 body {
   font-family: system-ui, sans-serif;
   margin: 0;
-  padding: env(safe-area-inset-top) 1rem env(safe-area-inset-bottom);
-  background: #f5f5f7;
-  color: #000;
+  background: var(--fundo);
+  color: var(--texto);
 }
-main { max-width: 480px; margin: 2rem auto; }
-h1 { color: #4f46e5; }
+
+button { font-family: inherit; }
+
+/* Telas: só a que tem a classe "ativa" aparece */
+.tela {
+  display: none;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 1rem) 1rem
+           calc(var(--altura-abas) + env(safe-area-inset-bottom) + 1rem);
+}
+.tela.ativa { display: block; }
+
+h1 { color: var(--cor-principal); margin: 0.25rem 0; }
+
+/* ---------- HOME ---------- */
+.cabecalho-dia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.textos-dia {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  margin-left: 0.5rem;
+}
+.cabecalho-dia h1 { font-size: 1.3rem; }
+.cabecalho-dia p {
+  margin: 0;
+  color: var(--cinza);
+  text-transform: capitalize;
+}
+
+.horarios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.horario {
+  display: flex;
+  gap: 1rem;
+  min-height: 56px;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+.horario:last-child { border-bottom: none; }
+.hora {
+  width: 3.5rem;
+  color: var(--cinza);
+  font-variant-numeric: tabular-nums;
+}
+.compromisso {
+  align-self: flex-start;
+  background: #eef0ff;
+  color: var(--cor-principal);
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+}
+.status {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--cinza);
+}
+
+/* ---------- CALENDÁRIO ---------- */
+.linha-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.botao-texto {
+  background: none;
+  border: none;
+  color: var(--cor-principal);
+  font-size: 1.05rem;
+  padding: 0.5rem 0.25rem;
+}
+.titulo-mes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.titulo-mes h1,
+.titulo-ano {
+  margin: 0;
+  font-size: 1.6rem;
+  text-transform: capitalize;
+}
+.titulo-ano { color: var(--cor-principal); font-weight: 700; }
+/* Nome do mês clicável + seletor de mês */
+.botao-titulo {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cor-principal);
+  text-transform: capitalize;
+}
+.seletor-mes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+.opcao-mes {
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 0;
+  font-size: 1rem;
+  text-transform: capitalize;
+  color: var(--texto);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.opcao-mes.atual {
+  background: var(--cor-principal);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Grade de dias (vale para o mês grande e para os mini-meses) */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+.letra-semana {
+  font-size: 0.75rem;
+  color: var(--cinza);
+  padding-bottom: 0.4rem;
+}
+.dia {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  font-size: 1.05rem;
+  color: var(--texto);
+  padding: 0;
+}
+.dia.hoje { background: var(--cor-principal); color: #fff; font-weight: 700; }
+.dia.selecionado:not(.hoje) { background: #e0e3ff; color: var(--cor-principal); font-weight: 700; }
+
+/* Visão do ano */
+.grade-ano {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 0.75rem;
+}
+.mini-mes {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+.mini-mes h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  color: var(--texto);
+}
+.mini-mes.mes-atual h2 { color: var(--cor-principal); }
+.grade.mini { gap: 1px; }
+.grade.mini .dia {
+  font-size: 0.55rem;
+  cursor: pointer;
+}
+
+/* ---------- BARRA DE ABAS ---------- */
+.abas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.aba {
+  flex: 1;
+  height: var(--altura-abas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: #8e8e93;
+}
+.aba .icone {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;   /* usa a mesma cor do texto da aba */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.aba.ativa { color: var(--cor-principal); font-weight: 600; }
