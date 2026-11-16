@@ -1,0 +1,93 @@
+/* ---------- FINANCEIRO ---------- */
+.resumo {
+  background: var(--cor-principal);
+  color: #fff;
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+.resumo-rotulo { margin: 0; opacity: 0.85; font-size: 0.9rem; }
+.resumo-total { margin: 0.25rem 0 0.75rem; font-size: 2rem; font-weight: 700; }
+.resumo-metodos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip-metodo {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.fin-secao { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+
+/* Contas: cartões que rolam para o lado */
+.contas {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  margin: 0 -1rem;
+  padding: 0.25rem 1rem;
+}
+.conta-card {
+  flex: 0 0 150px;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 0.9rem;
+  text-align: left;
+  color: var(--texto);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.conta-card.selecionada { border-color: var(--cor-principal); }
+.conta-card span { display: block; }
+.conta-nome { font-weight: 700; }
+.conta-tipo { font-size: 0.75rem; color: var(--cinza); }
+.conta-valor { margin-top: 0.6rem; font-weight: 600; }
+.conta-card.nova {
+  background: none;
+  border: 2px dashed #c7c7cc;
+  box-shadow: none;
+  color: var(--cor-principal);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lista de gastos */
+.gastos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.gasto {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+.gasto:last-child { border-bottom: none; }
+.gasto-info { flex: 1; min-width: 0; }
+.gasto-info span { display: block; }
+.gasto-desc { font-weight: 600; }
+.gasto-detalhe { font-size: 0.8rem; color: var(--cinza); }
+.gasto-valor { font-weight: 600; font-variant-numeric: tabular-nums; }
+.vazio { text-align: center; color: var(--cinza); padding: 1.5rem 1rem; }
+
+/* Botão "+" flutuante */
+.fab {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(var(--altura-abas) + env(safe-area-inset-bottom) + 1rem);
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--cor-principal);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}

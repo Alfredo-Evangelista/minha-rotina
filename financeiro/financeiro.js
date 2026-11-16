@@ -1,6 +1,5 @@
-// =====================================================
-// FINANCEIRO: interface (dados de mentira por enquanto)
-// =====================================================
+import { el, dinheiro, preencherSelect } from '../compartilhado/utilidades.js';
+
 const telaFinanceiro = document.getElementById('financeiro');
 
 // ----- Opções fixas -----
@@ -31,31 +30,23 @@ const gastos = [
 // Estado: qual conta está filtrada (null = todas)
 let contaFiltro = null;
 
-// ----- Ajudantes -----
-function dinheiro(valor) {
-  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
 function somar(lista) {
   return lista.reduce((total, g) => total + g.valor, 0);
 }
 
-// Cria um elemento com classe e texto, para não repetir código
-function el(tag, classe, texto) {
-  const e = document.createElement(tag);
-  if (classe) e.className = classe;
-  if (texto !== undefined) e.textContent = texto;
-  return e;
+// ----- Janelas que sobem de baixo (formulários) -----
+const fundo = document.getElementById('folha-fundo');
+const folhaConta = document.getElementById('folha-conta');
+const folhaGasto = document.getElementById('folha-gasto');
+
+function abrirFolha(folha) {
+  fundo.classList.add('aberta');
+  folha.classList.add('aberta');
 }
 
-function preencherSelect(select, opcoes) {
-  select.innerHTML = '';
-  opcoes.forEach(o => {
-    const opt = document.createElement('option');
-    opt.value = o.valor;
-    opt.textContent = o.texto;
-    select.appendChild(opt);
-  });
+function fecharFolhas() {
+  fundo.classList.remove('aberta');
+  document.querySelectorAll('.folha').forEach(f => f.classList.remove('aberta'));
 }
 
 // ----- Desenho da tela -----
@@ -138,51 +129,37 @@ function desenharFinanceiro() {
   telaFinanceiro.appendChild(lista);
 }
 
-// =====================================================
-// Janelas que sobem de baixo (formulários)
-// =====================================================
-const fundo = document.getElementById('folha-fundo');
-const folhaConta = document.getElementById('folha-conta');
-const folhaGasto = document.getElementById('folha-gasto');
+// O app.js chama esta função uma vez, ao abrir o app
+export function iniciar() {
+  fundo.addEventListener('click', fecharFolhas);
+  document.querySelectorAll('[data-fechar]').forEach(b => {
+    b.addEventListener('click', fecharFolhas);
+  });
 
-function abrirFolha(folha) {
-  fundo.classList.add('aberta');
-  folha.classList.add('aberta');
+  // Opções dos campos de seleção
+  preencherSelect(document.getElementById('conta-tipo'),
+    tiposConta.map(t => ({ valor: t, texto: t })));
+  preencherSelect(document.getElementById('gasto-metodo'),
+    metodos.map(m => ({ valor: m, texto: m })));
+
+  // Botão "+": prepara o formulário de gasto e abre
+  document.getElementById('botao-novo-gasto').addEventListener('click', () => {
+    preencherSelect(document.getElementById('gasto-conta'),
+      contas.map(c => ({ valor: c.id, texto: c.nome })));
+    // O formato 'sv-SE' devolve a data local como AAAA-MM-DD (o que o campo de data pede)
+    document.getElementById('gasto-data').value = new Date().toLocaleDateString('sv-SE');
+    abrirFolha(folhaGasto);
+  });
+
+  // Salvar: por enquanto só fecha. Vamos guardar os dados no próximo passo.
+  document.getElementById('form-conta').addEventListener('submit', e => {
+    e.preventDefault();
+    fecharFolhas();
+  });
+  document.getElementById('form-gasto').addEventListener('submit', e => {
+    e.preventDefault();
+    fecharFolhas();
+  });
+
+  desenharFinanceiro();
 }
-
-function fecharFolhas() {
-  fundo.classList.remove('aberta');
-  document.querySelectorAll('.folha').forEach(f => f.classList.remove('aberta'));
-}
-
-fundo.addEventListener('click', fecharFolhas);
-document.querySelectorAll('[data-fechar]').forEach(b => {
-  b.addEventListener('click', fecharFolhas);
-});
-
-// Opções dos campos de seleção
-preencherSelect(document.getElementById('conta-tipo'),
-  tiposConta.map(t => ({ valor: t, texto: t })));
-preencherSelect(document.getElementById('gasto-metodo'),
-  metodos.map(m => ({ valor: m, texto: m })));
-
-// Botão "+": prepara o formulário de gasto e abre
-document.getElementById('botao-novo-gasto').addEventListener('click', () => {
-  preencherSelect(document.getElementById('gasto-conta'),
-    contas.map(c => ({ valor: c.id, texto: c.nome })));
-  // O formato 'sv-SE' devolve a data local como AAAA-MM-DD (o que o campo de data pede)
-  document.getElementById('gasto-data').value = new Date().toLocaleDateString('sv-SE');
-  abrirFolha(folhaGasto);
-});
-
-// Salvar: por enquanto só fecha. Vamos guardar os dados no próximo passo.
-document.getElementById('form-conta').addEventListener('submit', e => {
-  e.preventDefault();
-  fecharFolhas();
-});
-document.getElementById('form-gasto').addEventListener('submit', e => {
-  e.preventDefault();
-  fecharFolhas();
-});
-
-desenharFinanceiro();

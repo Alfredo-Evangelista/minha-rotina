@@ -1,0 +1,135 @@
+:root {
+  --cor-principal: #4f46e5;
+  --fundo: #f5f5f7;
+  --texto: #1d1d1f;
+  --cinza: #6e6e73;
+  --altura-abas: 56px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+button { font-family: inherit; }
+
+h1 { color: var(--cor-principal); margin: 0.25rem 0; }
+
+/* Telas: só a que tem a classe "ativa" aparece */
+.tela {
+  display: none;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 1rem) 1rem
+           calc(var(--altura-abas) + env(safe-area-inset-bottom) + 1rem);
+}
+.tela.ativa { display: block; }
+
+/* Botão de texto (usado nas setas da Home e do Calendário) */
+.botao-texto {
+  background: none;
+  border: none;
+  color: var(--cor-principal);
+  font-size: 1.05rem;
+  padding: 0.5rem 0.25rem;
+}
+
+/* ---------- BARRA DE ABAS ---------- */
+.abas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.aba {
+  flex: 1;
+  height: var(--altura-abas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: #8e8e93;
+}
+.aba .icone {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.aba.ativa { color: var(--cor-principal); font-weight: 600; }
+
+/* ---------- JANELAS QUE SOBEM DE BAIXO ---------- */
+.folha-fundo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 20;
+}
+.folha-fundo.aberta { opacity: 1; pointer-events: auto; }
+
+.folha {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 1.25rem 1.25rem calc(env(safe-area-inset-bottom) + 1.25rem);
+  transform: translateY(100%);
+  transition: transform 0.25s;
+  z-index: 21;
+}
+.folha.aberta { transform: translateY(0); }
+.folha h2 { margin: 0 0 1rem; }
+.folha label {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--cinza);
+}
+.folha input,
+.folha select {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.7rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--texto);
+  background: #fff;
+  border: 1px solid #d1d1d6;
+  border-radius: 10px;
+}
+.folha-botoes { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+.folha-botoes button {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.btn-principal { background: var(--cor-principal); color: #fff; }
+.btn-secundario { background: #eee; color: var(--texto); }
